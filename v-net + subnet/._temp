@@ -1,0 +1,39 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "2.59.0"
+    }
+  }
+}
+
+
+provider "azurerm" {
+  features {}
+  subscription_id ="0182df2b-3fc2-4c4e-a13f-94b94e768623"
+  client_id       = "f77c7cba-6e70-4174-ac20-d0b4bbee9aa2"
+  client_secret   = "94TvcA5d9~Y2~H~4mGzXfNj60D61_oSr-5"
+  tenant_id       = "a88d422c-a7ba-4053-823a-43059ae68307"
+
+}
+
+provider "azurerm" {
+  
+  features {}
+  alias =  "other_subscriber"
+  subscription_id = "0182df2b-3fc2-4c4e-a13f-94b94e768623"
+  client_id       = "cf530fa1-ad20-4828-be62-15268aa9973e"
+  client_secret   = "_HXIa84D48m6pLiPonowE_.wh0650F~48v"
+  tenant_id       = "a88d422c-a7ba-4053-823a-43059ae68307"
+}
+
+resource "azurerm_resource_group" "example" {
+  provider = azurerm.other_subscriber
+  for_each = var.name
+  name     = each.key
+  location = "West Europe"
+  tags = {
+    environment = each.key
+   }
+ 
+}
